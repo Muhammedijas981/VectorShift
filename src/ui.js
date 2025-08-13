@@ -10,6 +10,11 @@ import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
+import { NumberInputNode } from './nodes/numberInputNode';
+import { MathOperationNode } from './nodes/mathOperationNode';
+import { PromptTemplateNode } from './nodes/promptTemplateNode';
+import { SwitchNode } from './nodes/switchNode';
+import { HttpRequestNode } from './nodes/httpRequestNode';
 
 import 'reactflow/dist/style.css';
 
@@ -20,6 +25,11 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  numberInput: NumberInputNode,
+  mathOperation: MathOperationNode,
+  switch: SwitchNode,
+  httpRequest: HttpRequestNode,
+  promptTemplate: PromptTemplateNode,
 };
 
 const selector = (state) => ({
