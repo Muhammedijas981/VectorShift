@@ -1,24 +1,15 @@
-// textNode.js
-
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
-export const TextNode = createNode({
-  type: NODE_TYPES.TEXT,
-  title: "Text",
+export default createNode({
+  type: "text",
+  title: "Text Node",
   fields: [
     {
       type: "textarea",
-      label: "Content",
-      stateKey: "content",
+      label: "Prompt",
+      stateKey: "text",
       defaultValue: "",
     },
   ],
-  handles: [
-    {
-      type: "source",
-      position: "right",
-      idSuffix: "out",
-    },
-  ],
+  handles: [{ type: "source", position: "right", idSuffix: "output" }],
 });

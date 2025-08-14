@@ -1,10 +1,8 @@
 // mathoperationNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
 export const MathOperationNode = createNode({
-  type: NODE_TYPES.MATH,
   title: "Math Operation",
   fields: [
     {

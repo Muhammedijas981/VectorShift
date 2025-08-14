@@ -1,10 +1,8 @@
 // httpRequestNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
 export const HttpRequestNode = createNode({
-  type: NODE_TYPES.HTTP,
   title: "HTTP Request",
   fields: [
     {

@@ -1,10 +1,8 @@
 // outputNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
 export const OutputNode = createNode({
-  type: NODE_TYPES.OUTPUT,
   title: "Output",
   fields: [
     {
