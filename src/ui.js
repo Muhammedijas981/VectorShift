@@ -9,7 +9,7 @@ import { shallow } from 'zustand/shallow';
 import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
-import  TextNode  from './nodes/textNode';
+import { TextNode } from './nodes/textNode';
 import { NumberInputNode } from './nodes/numberInputNode';
 import { MathOperationNode } from './nodes/mathOperationNode';
 import { PromptTemplateNode } from './nodes/promptTemplateNode';

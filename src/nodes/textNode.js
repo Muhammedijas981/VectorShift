@@ -1,6 +1,6 @@
 import { createNode } from "./createNode";
 
-export default createNode({
+export const TextNode = createNode({
   type: "text",
   title: "Text Node",
   fields: [
