@@ -4,14 +4,20 @@ import { createNode } from "./createNode";
 import { NODE_TYPES } from "./nodeTypes";
 
 export const InputNode = createNode({
-  type: NODE_TYPES.INPUT,
   title: "Input",
   fields: [
     {
       type: "text",
-      label: "Input Value",
-      stateKey: "inputValue",
-      defaultValue: "",
+      label: "Input Name",
+      stateKey: "inputName",
+      defaultValue: "input_0",
+    },
+    {
+      type: "select",
+      label: "Type",
+      stateKey: "inputType",
+      options: ["text", "file"],
+      defaultValue: "text",
     },
   ],
   handles: [
@@ -22,3 +28,4 @@ export const InputNode = createNode({
     },
   ],
 });
+
