@@ -1,16 +1,20 @@
 // BaseNode.js
 import { useState } from "react";
 import { Handle, Position } from "reactflow";
-
+import SettingsIcon from "@mui/icons-material/Settings";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function BaseNode({
   id,
   title,
-  type,
+  icon,
+  description,
   fields = [],
   handles = [],
   data = {},
-  customStyles = {},
+  className = "",
+  onDelete,
+  onNodeIdChange,
 }) {
   const [state, setState] = useState(() => {
     const init = {};
@@ -20,73 +24,89 @@ export default function BaseNode({
     return init;
   });
 
-  const defaultStyles = {
-    width: 200,
-    border: "1px solid #333",
-    borderRadius: 6,
-    padding: 8,
-    ...customStyles,
-  };
+  const [nodeId, setNodeId] = useState(id); 
 
   const updateField = (key, value) => {
     setState((prev) => ({ ...prev, [key]: value }));
+    fields.find((f) => f.stateKey === key)?.onChange?.(key, value);
+  };
+
+  const handleNodeIdChange = (newId) => {
+    setNodeId(newId);
+    if (onNodeIdChange) {
+      onNodeIdChange(id, newId);
+    }
   };
 
   return (
-    <div style={defaultStyles}>
-      <div style={{ marginBottom: 6 }}>
-        <strong>{title}</strong>
+    <div className={`vectorshift-node ${className}`}>
+      {handles.map((h, i) => (
+        <Handle
+          key={i}
+          type={h.type}
+          position={Position[h.position.charAt(0).toUpperCase() + h.position.slice(1)]}
+          id={`${id}-${h.idSuffix}`}
+          style={h.style || {}}
+          className={`custom-handle custom-handle-${h.type}`}
+        />
+      ))}
+      <div className="vs-header-container">
+        <div className="vs-header">
+          <div className="vs-header-left">
+            {icon && <div className="vs-icon">{icon}</div>}
+            <div className="vs-title">{title}</div>
+          </div>
+          <div className="vs-header-right">
+            <SettingsIcon className="vs-action" />
+            <CloseIcon
+              className="vs-action"
+              onClick={() => onDelete && onDelete(id)}
+            />
+          </div>
+        </div>
+        {description && <div className="vs-subtitle">{description}</div>}
       </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {fields.map((f, i) => {
-          if (f.type === "select") {
-            return (
-              <label
-                key={i}
-                style={{ display: "flex", flexDirection: "column" }}
-              >
-                {f.label}:
+      <div className="node-id-container">
+        <input
+          type="text"
+          value={nodeId}
+          onChange={(e) => handleNodeIdChange(e.target.value)}
+          className="node-id-input"
+          placeholder="Enter node name "
+        />
+      </div>
+      <div className="vs-body">
+        {fields.map((f) => (
+          <div key={f.stateKey} className="vs-form-group">
+            <label className="vs-label">{f.label}</label>
+            <div className="vs-input-group">
+              {/* {f.type === "select" && (
+                <div className="vs-dropdown-badge">Dropdown</div>
+              )} */}
+              {f.type === "select" ? (
                 <select
+                  className="vs-input"
                   value={state[f.stateKey]}
                   onChange={(e) => updateField(f.stateKey, e.target.value)}
                 >
-                  {f.options.map((opt) => (
+                  {f.options?.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
                     </option>
                   ))}
                 </select>
-              </label>
-            );
-          }
-          if (f.type === "static") {
-            return <div key={i}>{f.content}</div>;
-          }
-          return (
-            <label key={i} style={{ display: "flex", flexDirection: "column" }}>
-              {f.label}:
-              <input
-                type={f.type}
-                value={state[f.stateKey]}
-                onChange={(e) => updateField(f.stateKey, e.target.value)}
-              />
-            </label>
-          );
-        })}
+              ) : (
+                <input
+                  className="vs-input"
+                  type={f.type}
+                  value={state[f.stateKey]}
+                  onChange={(e) => updateField(f.stateKey, e.target.value)}
+                />
+              )}
+            </div>
+          </div>
+        ))}
       </div>
-
-      {handles.map((h, i) => (
-        <Handle
-          key={i}
-          type={h.type}
-          position={
-            Position[h.position.charAt(0).toUpperCase() + h.position.slice(1)]
-          }
-          id={`${id}-${h.idSuffix}`}
-          style={h.style || {}}
-        />
-      ))}
     </div>
   );
 }
