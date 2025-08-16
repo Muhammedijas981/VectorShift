@@ -5,7 +5,7 @@ import TextFieldsIcon from "@mui/icons-material/TextFields";
 export const TextNode = createNode({
   type: "text",
   title: "Text Node",
-  icon: <TextFieldsIcon />,
+  icon: <TextFieldsIcon sx={{ color: "black", fontSize: 17 }} />,
   description: "Process and transform text with variable support",
   fields: [
     {
@@ -13,7 +13,7 @@ export const TextNode = createNode({
       label: "Prompt",
       stateKey: "text",
       defaultValue: "",
-      allowVariables: true, 
+      allowVariables: true,
     },
   ],
   handles: [

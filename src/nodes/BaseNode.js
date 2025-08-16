@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Handle, Position } from "reactflow";
 import SettingsIcon from "@mui/icons-material/Settings";
-import CloseIcon from "@mui/icons-material/Close";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+
 
 export default function BaseNode({
   id,
@@ -172,7 +173,10 @@ export default function BaseNode({
           </div>
           <div className="vs-header-right">
             <SettingsIcon className="vs-action" />
-            <CloseIcon className="vs-action" onClick={() => onDelete?.(id)} />
+            <HighlightOffRoundedIcon
+              className="vs-action"
+              onClick={() => onDelete?.(id)}
+            />
           </div>
         </div>
       </div>
