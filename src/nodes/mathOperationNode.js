@@ -18,12 +18,13 @@ export const MathOperationNode = createNode({
       type: "target",
       position: "left",
       idSuffix: "a",
+      style: { top: "30%" },
     },
     {
       type: "target",
       position: "left",
       idSuffix: "b",
-      style: { top: "60%" },
+      style: { top: "70%" },
     },
     {
       type: "source",

@@ -1,10 +1,14 @@
 // submit.js
 
-export const SubmitButton = () => {
+import React from "react";
 
-    return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <button type="submit">Submit</button>
-        </div>
-    );
-}
+export const SubmitButton = () => {
+  return (
+    <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+      <button className="submit-button" type="submit">
+        Submit
+      </button>
+    </div>
+  );
+};
+

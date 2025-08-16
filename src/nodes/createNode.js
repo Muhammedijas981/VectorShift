@@ -1,26 +1,34 @@
+//createNode.js
+
 import React, { useState } from "react";
 import BaseNode from "./BaseNode";
+import { useStore } from "../store";
 
 export function createNode(config) {
   return function CustomNode(props) {
-    const [dynamicHandles, setDynamicHandles] = useState(config.handles || []);
-    const [customStyles, setCustomStyles] = useState(config.styles || {});
+    const [dynHandles, setDynHandles] = useState(config.handles || []);
+    const deleteNode = useStore((s) => s.deleteNode);
 
     const handleFieldChange = (key, value) => {
       if (config.onFieldChange) {
-        config.onFieldChange(key, value, setDynamicHandles, setCustomStyles);
+        config.onFieldChange(key, value, setDynHandles);
       }
+      props.data.onFieldChange?.(props.id, key, value);
     };
 
     return (
       <BaseNode
         {...props}
-        type={config.type}
+        className={`vectorshift-node-${config.type}`}
         title={config.title}
-        fields={config.fields}
-        handles={dynamicHandles}
-        customStyles={customStyles}
-        onFieldChange={handleFieldChange}
+        icon={config.icon}
+        description={config.description}
+        fields={config.fields.map((f) => ({
+          ...f,
+          onChange: handleFieldChange,
+        }))}
+        handles={dynHandles}
+        onDelete={deleteNode}
       />
     );
   };
