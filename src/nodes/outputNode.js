@@ -6,7 +6,7 @@ import OutputIcon from "@mui/icons-material/Output";
 export const OutputNode = createNode({
   type: "output",
   title: "Output",
-  icon: <OutputIcon sx={{ color: "black", ffontSize: 17 }} />,
+  icon: <OutputIcon sx={{ color: "black", fontSize: 17 }} />,
   description: "Display final workflow results",
   fields: [
     {

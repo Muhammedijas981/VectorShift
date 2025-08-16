@@ -9,12 +9,12 @@ export const InputNode = createNode({
   icon: <InputIcon sx={{ color: "black", fontSize: 17 }} />,
   description: "Pass data of different types into workflow",
   fields: [
-    {
-      type: "text",
-      label: "Input Name",
-      stateKey: "inputName",
-      defaultValue: "input_0",
-    },
+    // {
+    //   type: "text",
+    //   label: "Input Name",
+    //   stateKey: "inputName",
+    //   defaultValue: "input_0",
+    // },
     {
       type: "select",
       label: "Type",

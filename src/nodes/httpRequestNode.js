@@ -1,9 +1,12 @@
 // httpRequestNode.js
 
 import { createNode } from "./createNode";
+import HttpIcon from "@mui/icons-material/Http";
+
 
 export const HttpRequestNode = createNode({
   title: "HTTP Request",
+  icon: <HttpIcon sx={{ color: "black", fontSize: 17 }} />,
   fields: [
     {
       type: "select",

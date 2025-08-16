@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { DraggableNode } from "./draggableNode";
 
 import CalculateIcon from "@mui/icons-material/Calculate";
-import NumbersIcon from "@mui/icons-material/Numbers";
+import PinIcon from "@mui/icons-material/Pin";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import HttpIcon from "@mui/icons-material/Http";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -74,17 +74,17 @@ export const PipelineToolbar = () => {
         <DraggableNode
           type="numberInput"
           label="Number Input"
-          icon={<NumbersIcon />}
+          icon={<PinIcon />}
         />
         <DraggableNode type="switch" label="Switch" icon={<ToggleOnIcon />} />
         <DraggableNode
           type="httpRequest"
-          label="HTTP Request"
+          label="Request"
           icon={<HttpIcon />}
         />
         <DraggableNode
           type="promptTemplate"
-          label="Prompt Template"
+          label="Prompt"
           icon={<ArticleIcon />}
         />
       </div>

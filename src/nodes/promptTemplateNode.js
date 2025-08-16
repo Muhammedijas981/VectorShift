@@ -1,9 +1,11 @@
 // promptTemplateNode.js
 
 import { createNode } from "./createNode";
+import ArticleIcon from "@mui/icons-material/Article";
 
 export const PromptTemplateNode = createNode({
-  title: "Prompt Template",
+  title: "Prompt",
+  icon: <ArticleIcon sx={{ color: "black", fontSize: 17 }} />,
   fields: [
     {
       type: "textarea",
