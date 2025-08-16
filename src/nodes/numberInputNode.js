@@ -1,10 +1,8 @@
 // numberInputNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
 export const NumberInputNode = createNode({
-  type: NODE_TYPES.NUMBER,
   title: "Number Input",
   fields: [
     {

@@ -1,10 +1,13 @@
 // inputNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
+import InputIcon from "@mui/icons-material/Input";
 
 export const InputNode = createNode({
+  type: "input",
   title: "Input",
+  icon: <InputIcon sx={{ color: "black", fontSize: 17 }} />,
+  description: "Pass data of different types into workflow",
   fields: [
     {
       type: "text",
@@ -27,5 +30,21 @@ export const InputNode = createNode({
       idSuffix: "out",
     },
   ],
+    // {
+    //   type: "text",
+    //   label: "Input Value",
+    //   stateKey: "inputValue",
+    //   defaultValue: "",
+    // },
+    {
+      type: "select", 
+      label: "Type",
+      stateKey: "inputType", 
+      options: ["file", "text"],
+      defaultValue: "text",
+    },
+  ],
+  handles: [{ type: "source", position: "right", idSuffix: "out" }],
 });
+
 

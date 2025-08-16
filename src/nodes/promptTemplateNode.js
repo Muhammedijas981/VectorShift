@@ -1,10 +1,8 @@
 // promptTemplateNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
 export const PromptTemplateNode = createNode({
-  type: NODE_TYPES.PROMPT,
   title: "Prompt Template",
   fields: [
     {

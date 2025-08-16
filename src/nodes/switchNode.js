@@ -1,10 +1,9 @@
 // switchNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
 
 export const SwitchNode = createNode({
-  type: NODE_TYPES.SWITCH,
+
   title: "Switch",
   fields: [
     {

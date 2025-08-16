@@ -1,24 +1,27 @@
 // outputNode.js
 
 import { createNode } from "./createNode";
-import { NODE_TYPES } from "./nodeTypes";
+import OutputIcon from "@mui/icons-material/Output";
 
 export const OutputNode = createNode({
-  type: NODE_TYPES.OUTPUT,
+  type: "output",
   title: "Output",
+  icon: <OutputIcon sx={{ color: "black", ffontSize: 17 }} />,
+  description: "Display final workflow results",
   fields: [
     {
-      type: "static",
-      label: "Output Value",
-      stateKey: "outputValue",
-      content: "Output will appear here",
+      type: "select",
+      label: "Type",
+      stateKey: "outputType",
+      options: ["Text", "JSON"],
+      defaultValue: "Text",
     },
-  ],
-  handles: [
     {
-      type: "target",
-      position: "left",
-      idSuffix: "in",
+      type: "text",
+      label: "Output",
+      stateKey: "outputValue",
+      defaultValue: "",
     },
   ],
+  handles: [{ type: "target", position: "left", idSuffix: "in" }],
 });
