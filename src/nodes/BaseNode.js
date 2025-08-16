@@ -1,4 +1,4 @@
-// BaseNode.js
+// src/nodes/BaseNode.js
 import { useState } from "react";
 import { Handle, Position } from "reactflow";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -23,33 +23,147 @@ export default function BaseNode({
     });
     return init;
   });
-
-  const [nodeId, setNodeId] = useState(id); 
+  const [nodeId, setNodeId] = useState(id);
 
   const updateField = (key, value) => {
-    setState((prev) => ({ ...prev, [key]: value }));
-    fields.find((f) => f.stateKey === key)?.onChange?.(key, value);
+    setState((prev) => {
+      const newState = { ...prev, [key]: value };
+      return newState;
+    });
+    const field = fields.find((f) => f.stateKey === key);
+    if (field?.onChange) {
+      field.onChange(key, value);
+    }
   };
 
   const handleNodeIdChange = (newId) => {
     setNodeId(newId);
-    if (onNodeIdChange) {
-      onNodeIdChange(id, newId);
+    if (onNodeIdChange) onNodeIdChange(id, newId);
+  };
+
+  const renderField = (f, idx) => {
+    if (f.type === "textarea") {
+      return (
+        <div
+          key={idx}
+          className="vs-form-group"
+          style={{ position: "relative" }}
+        >
+          {f.label && <label className="vs-label">{f.label}:</label>}
+          <textarea
+            ref={f.textareaRef}
+            value={state[f.stateKey]}
+            onChange={(e) => {
+              updateField(f.stateKey, e.target.value);
+            }}
+            onKeyDown={(e) => {
+              f.onKeyDown?.(e, f.stateKey);
+            }}
+            onInput={(e) => {
+              e.target.style.height = "auto";
+              e.target.style.height = `${e.target.scrollHeight}px`;
+            }}
+            className="vs-input"
+            style={{ resize: "none", overflow: "hidden", minHeight: "40px" }}
+          />
+          {f.allowVariables &&
+            f.showDropdown &&
+            f.dropdownItems?.length > 0 && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  right: 0,
+                  maxHeight: 200,
+                  overflowY: "auto",
+                  background: "#fff",
+                  border: "1px solid #ccc",
+                  borderRadius: 4,
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  zIndex: 1000,
+                }}
+              >
+                {f.dropdownItems.map((item) => (
+                  <div
+                    key={item}
+                    style={{
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      borderBottom: "1px solid #eee",
+                      fontSize: 13,
+                      backgroundColor: "white",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (f.onVariableSelect) {
+                        f.onVariableSelect(
+                          item,
+                          f.stateKey,
+                          state[f.stateKey],
+                          updateField
+                        );
+                      }
+                    }}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = "#f0f0f0";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = "white";
+                    }}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            )}
+        </div>
+      );
     }
+    if (f.type === "select") {
+      return (
+        <div key={idx} className="vs-form-group">
+          <label className="vs-label">{f.label}:</label>
+          <select
+            className="vs-select"
+            value={state[f.stateKey]}
+            onChange={(e) => updateField(f.stateKey, e.target.value)}
+          >
+            {f.options.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
+    }
+    if (f.type === "static") {
+      return (
+        <div key={idx} className="vs-form-group">
+          {f.content}
+        </div>
+      );
+    }
+    return (
+      <div key={idx} className="vs-form-group">
+        <label className="vs-label">{f.label}:</label>
+        <input
+          className="vs-input"
+          type={f.type}
+          value={state[f.stateKey]}
+          onChange={(e) => updateField(f.stateKey, e.target.value)}
+        />
+      </div>
+    );
   };
 
   return (
     <div className={`vectorshift-node ${className}`}>
-      {handles.map((h, i) => (
-        <Handle
-          key={i}
-          type={h.type}
-          position={Position[h.position.charAt(0).toUpperCase() + h.position.slice(1)]}
-          id={`${id}-${h.idSuffix}`}
-          style={h.style || {}}
-          className={`custom-handle custom-handle-${h.type}`}
-        />
-      ))}
       <div className="vs-header-container">
         <div className="vs-header">
           <div className="vs-header-left">
@@ -58,55 +172,72 @@ export default function BaseNode({
           </div>
           <div className="vs-header-right">
             <SettingsIcon className="vs-action" />
-            <CloseIcon
-              className="vs-action"
-              onClick={() => onDelete && onDelete(id)}
-            />
+            <CloseIcon className="vs-action" onClick={() => onDelete?.(id)} />
           </div>
         </div>
-        {description && <div className="vs-subtitle">{description}</div>}
       </div>
       <div className="node-id-container">
         <input
+          className="node-id-input"
           type="text"
           value={nodeId}
           onChange={(e) => handleNodeIdChange(e.target.value)}
-          className="node-id-input"
-          placeholder="Enter node name "
         />
       </div>
-      <div className="vs-body">
-        {fields.map((f) => (
-          <div key={f.stateKey} className="vs-form-group">
-            <label className="vs-label">{f.label}</label>
-            <div className="vs-input-group">
-              {/* {f.type === "select" && (
-                <div className="vs-dropdown-badge">Dropdown</div>
-              )} */}
-              {f.type === "select" ? (
-                <select
-                  className="vs-input"
-                  value={state[f.stateKey]}
-                  onChange={(e) => updateField(f.stateKey, e.target.value)}
-                >
-                  {f.options?.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  className="vs-input"
-                  type={f.type}
-                  value={state[f.stateKey]}
-                  onChange={(e) => updateField(f.stateKey, e.target.value)}
-                />
-              )}
+      <div className="vs-body">{fields.map(renderField)}</div>
+      {handles.map((h, i) => {
+        if (h.isDynamic) {
+          return (
+            <div
+              key={h.id}
+              style={{
+                position: "absolute",
+                left: 0,
+                top: h.style?.top,
+                transform: "translateX(-50%)",
+                display: "flex",
+                alignItems: "center",
+                height: 20,
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  right: 20,
+                  fontSize: 12,
+                  color: "#666",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+              >
+                {h.variable}
+              </div>
+              <Handle
+                type={h.type}
+                position={Position.Left}
+                id={h.id}
+                className="custom-handle"
+                isConnectable
+              />
             </div>
-          </div>
-        ))}
-      </div>
+          );
+        } else {
+          return (
+            <Handle
+              key={i}
+              type={h.type}
+              position={
+                Position[
+                  h.position.charAt(0).toUpperCase() + h.position.slice(1)
+                ]
+              }
+              id={`${id}-${h.idSuffix}`}
+              style={h.style}
+              className="custom-handle"
+            />
+          );
+        }
+      })}
     </div>
   );
 }
