@@ -428,6 +428,12 @@ body,
   box-sizing: border-box;
 }
 
+.submit-button-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .submit-button {
   background-color: #3b82f6; 
   color: white;
