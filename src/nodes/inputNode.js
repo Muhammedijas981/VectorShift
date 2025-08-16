@@ -30,21 +30,6 @@ export const InputNode = createNode({
       idSuffix: "out",
     },
   ],
-    // {
-    //   type: "text",
-    //   label: "Input Value",
-    //   stateKey: "inputValue",
-    //   defaultValue: "",
-    // },
-    {
-      type: "select", 
-      label: "Type",
-      stateKey: "inputType", 
-      options: ["file", "text"],
-      defaultValue: "text",
-    },
-  ],
-  handles: [{ type: "source", position: "right", idSuffix: "out" }],
 });
 
 
