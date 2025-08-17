@@ -37,8 +37,6 @@ This repository contains the solution to the **VectorShift Frontend Technical As
 
 ### Backend Setup
 
-The backend repository is available at: https://github.com/Muhammedijas981/VectorShift_backend
-
 1. **Clone the backend repository**
    ```bash
    git clone https://github.com/Muhammedijas981/VectorShift_backend.git
