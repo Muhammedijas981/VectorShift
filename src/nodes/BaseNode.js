@@ -5,6 +5,43 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 
 
+// helper function to parse text with chips
+function parseTextWithChips(text) {
+  const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_\-$.]*)\s*\}\}/g;
+  const output = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      output.push(text.slice(lastIndex, match.index));
+    }
+    output.push(
+      <span
+        key={match[1] + match.index}
+        style={{
+          display: "inline-block",
+          background: "#e0e7ff",
+          color: "#3b5afe",
+          borderRadius: 14,
+          padding: "2px 10px",
+          margin: "0 2px",
+          fontSize: 12,
+          fontWeight: 600,
+          cursor: "pointer",
+        }}
+      >
+        {match[1]}
+      </span>
+    );
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < text.length) {
+    output.push(text.slice(lastIndex));
+  }
+  return output;
+}
+
 export default function BaseNode({
   id,
   title,
@@ -67,6 +104,26 @@ export default function BaseNode({
             className="vs-input"
             style={{ resize: "none", overflow: "hidden", minHeight: "40px" }}
           />
+          {f.allowVariables && state[f.stateKey] && (
+            <div
+              style={{
+                marginTop: 8,
+                padding: "8px 12px",
+                border: "1px solid #e5e7eb",
+                borderRadius: 6,
+                background: "#f9fafb",
+                minHeight: 20,
+                fontSize: 13,
+                lineHeight: 1.5,
+              }}
+            >
+              <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 4 }}>
+                Preview:
+              </div>
+              <div>{parseTextWithChips(state[f.stateKey])}</div>
+            </div>
+          )}
+
           {f.allowVariables &&
             f.showDropdown &&
             f.dropdownItems?.length > 0 && (
