@@ -118,7 +118,7 @@ export default function BaseNode({
               }}
             >
               <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 4 }}>
-                Preview:
+                input:
               </div>
               <div>{parseTextWithChips(state[f.stateKey])}</div>
             </div>
