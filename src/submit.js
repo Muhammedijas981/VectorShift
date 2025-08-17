@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import { useStore } from "./store";
 import { shallow } from "zustand/shallow";
-import CircularProgress from '@mui/material/CircularProgress';
-
+import CircularProgress from "@mui/material/CircularProgress";
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -34,7 +33,7 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
 
   React.useEffect(() => {
     if (isOpen) {
-      setTimeLeft(8); 
+      setTimeLeft(8);
     }
   }, [isOpen]);
 
@@ -60,13 +59,13 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
       <div
         style={{
           backgroundColor: "white",
-          borderRadius: "12px",
-          padding: "24px",
-          maxWidth: "450px",
+          borderRadius: "8px",
+          padding: "16px",
+          maxWidth: "300px",
           width: "90%",
-          boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
           position: "relative",
-          border: `3px solid ${isError ? "#ef4444" : "#10b981"}`,
+          border: `2px solid ${isError ? "#ef4444" : "#10b981"}`,
           animation: "modalSlideIn 0.3s ease-out",
         }}
         onClick={(e) => e.stopPropagation()}
@@ -75,15 +74,15 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
           onClick={onClose}
           style={{
             position: "absolute",
-            top: "12px",
-            right: "12px",
+            top: "8px",
+            right: "8px",
             background: "transparent",
             border: "none",
-            fontSize: "24px",
+            fontSize: "18px",
             color: "#6b7280",
             cursor: "pointer",
-            width: "32px",
-            height: "32px",
+            width: "24px",
+            height: "24px",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
@@ -104,27 +103,27 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
         <div
           style={{
             position: "absolute",
-            top: "12px",
-            left: "12px",
+            top: "8px",
+            left: "8px",
             backgroundColor: "#f3f4f6",
-            borderRadius: "12px",
-            padding: "4px 8px",
-            fontSize: "12px",
+            borderRadius: "8px",
+            padding: "2px 6px",
+            fontSize: "10px",
             color: "#6b7280",
             fontWeight: "500",
           }}
         >
           Auto-close in {timeLeft}s
         </div>
-        <div style={{ marginTop: "20px", textAlign: "center" }}>
+        <div style={{ marginTop: "16px", textAlign: "center" }}>
           {isError ? (
             <div>
-              <div style={{ fontSize: "48px", marginBottom: "16px" }}>🚫</div>
+              <div style={{ fontSize: "32px", marginBottom: "8px" }}>🚫</div>
               <h2
                 style={{
-                  margin: "0 0 16px 0",
+                  margin: "0 0 8px 0",
                   color: "#ef4444",
-                  fontSize: "24px",
+                  fontSize: "18px",
                 }}
               >
                 Connection Failed
@@ -133,26 +132,27 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                 style={{
                   backgroundColor: "#fef2f2",
                   border: "1px solid #fecaca",
-                  borderRadius: "8px",
-                  padding: "16px",
+                  borderRadius: "6px",
+                  padding: "8px",
                   textAlign: "left",
-                  marginBottom: "20px",
+                  marginBottom: "12px",
                 }}
               >
                 <p
                   style={{
-                    margin: "0 0 8px 0",
+                    margin: "0 0 4px 0",
                     color: "#dc2626",
                     fontWeight: "600",
+                    fontSize: "12px",
                   }}
                 >
                   ❌ Unable to analyze pipeline
                 </p>
                 <p
                   style={{
-                    margin: "0 0 8px 0",
+                    margin: "0 0 4px 0",
                     color: "#7f1d1d",
-                    fontSize: "14px",
+                    fontSize: "11px",
                   }}
                 >
                   📡 Check if backend server is running on port 8000
@@ -161,7 +161,7 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                   style={{
                     margin: "0",
                     color: "#991b1b",
-                    fontSize: "13px",
+                    fontSize: "10px",
                     fontFamily: "monospace",
                   }}
                 >
@@ -171,15 +171,15 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
             </div>
           ) : (
             <div>
-              <div style={{ fontSize: "48px", marginBottom: "16px" }}>
+              <div style={{ fontSize: "32px", marginBottom: "8px" }}>
                 {result?.is_dag ? "🎉" : "⚠️"}
               </div>
 
               <h2
                 style={{
-                  margin: "0 0 16px 0",
+                  margin: "0 0 8px 0",
                   color: result?.is_dag ? "#10b981" : "#f59e0b",
-                  fontSize: "24px",
+                  fontSize: "18px",
                 }}
               >
                 Pipeline Analysis Complete
@@ -188,29 +188,29 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr",
-                  gap: "12px",
-                  marginBottom: "20px",
+                  gap: "8px",
+                  marginBottom: "12px",
                 }}
               >
                 <div
                   style={{
                     backgroundColor: "#f0f9ff",
                     border: "1px solid #bae6fd",
-                    borderRadius: "8px",
-                    padding: "12px",
+                    borderRadius: "6px",
+                    padding: "8px",
                   }}
                 >
-                  <div style={{ fontSize: "24px", color: "#0ea5e9" }}>📊</div>
+                  <div style={{ fontSize: "16px", color: "#0ea5e9" }}>📊</div>
                   <div
                     style={{
-                      fontSize: "18px",
+                      fontSize: "14px",
                       fontWeight: "bold",
                       color: "#0c4a6e",
                     }}
                   >
                     {result?.num_nodes || 0}
                   </div>
-                  <div style={{ fontSize: "12px", color: "#0369a1" }}>
+                  <div style={{ fontSize: "10px", color: "#0369a1" }}>
                     Nodes
                   </div>
                 </div>
@@ -219,21 +219,21 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                   style={{
                     backgroundColor: "#f0fdf4",
                     border: "1px solid #bbf7d0",
-                    borderRadius: "8px",
-                    padding: "12px",
+                    borderRadius: "6px",
+                    padding: "8px",
                   }}
                 >
-                  <div style={{ fontSize: "24px", color: "#22c55e" }}>🔗</div>
+                  <div style={{ fontSize: "16px", color: "#22c55e" }}>🔗</div>
                   <div
                     style={{
-                      fontSize: "18px",
+                      fontSize: "14px",
                       fontWeight: "bold",
                       color: "#14532d",
                     }}
                   >
                     {result?.num_edges || 0}
                   </div>
-                  <div style={{ fontSize: "12px", color: "#166534" }}>
+                  <div style={{ fontSize: "10px", color: "#166534" }}>
                     Edges
                   </div>
                 </div>
@@ -242,9 +242,9 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                 style={{
                   backgroundColor: result?.is_dag ? "#f0fdf4" : "#fef2f2",
                   border: `1px solid ${result?.is_dag ? "#bbf7d0" : "#fecaca"}`,
-                  borderRadius: "8px",
-                  padding: "16px",
-                  marginBottom: "20px",
+                  borderRadius: "6px",
+                  padding: "8px",
+                  marginBottom: "12px",
                 }}
               >
                 <div
@@ -252,16 +252,13 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "8px",
-                    marginBottom: "8px",
+                    gap: "6px",
+                    marginBottom: "4px",
                   }}
                 >
-                  <span style={{ fontSize: "20px" }}>
-                    {result?.is_dag ? "✅" : "❌"}
-                  </span>
                   <span
                     style={{
-                      fontSize: "16px",
+                      fontSize: "14px",
                       fontWeight: "600",
                       color: result?.is_dag ? "#166534" : "#dc2626",
                     }}
@@ -273,14 +270,14 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
                 <p
                   style={{
                     margin: "0",
-                    fontSize: "14px",
+                    fontSize: "11px",
                     color: result?.is_dag ? "#15803d" : "#b91c1c",
                     textAlign: "center",
                   }}
                 >
                   {result?.is_dag
                     ? "🎉 Your pipeline is properly structured!"
-                    : "💡 Your pipeline contains cycles. Remove circular dependencies to fix this."}
+                    : "Your pipeline contains cycles. Remove circular dependencies to fix this."}
                 </p>
               </div>
             </div>
@@ -291,13 +288,13 @@ const ResultModal = ({ isOpen, onClose, result, isError = false }) => {
               backgroundColor: isError ? "#ef4444" : "#10b981",
               color: "white",
               border: "none",
-              borderRadius: "8px",
-              padding: "12px 24px",
-              fontSize: "14px",
+              borderRadius: "6px",
+              padding: "8px 16px",
+              fontSize: "12px",
               fontWeight: "600",
               cursor: "pointer",
               transition: "all 0.2s ease",
-              minWidth: "120px",
+              minWidth: "80px",
             }}
             onMouseEnter={(e) => {
               e.target.style.transform = "translateY(-1px)";
@@ -362,10 +359,13 @@ export const SubmitButton = () => {
       const formData = new FormData();
       formData.append("pipeline", pipelineJson);
 
-      const response = await fetch("http://localhost:8000/pipelines/parse", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://vectorshift-backend-nkzt.onrender.com/pipelines/parse",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
