@@ -5,7 +5,7 @@ import LlmIcon from "@mui/icons-material/Assistant";
 
 export const LLMNode = createNode({
   type: "llm",
-  title: "Language Model",
+  title: "LLM ",
   icon: <LlmIcon sx={{ color: "black", fontSize: 17 }} />,
   description: "Call an LLM to generate or transform text",
   fields: [
@@ -20,7 +20,7 @@ export const LLMNode = createNode({
       type: "select",
       label: "Model",
       stateKey: "model",
-      options: ["GPT-4", "GPT-3.5"],
+      options: ["GPT-4", "GPT-3.5", "Claude 3", "LLaMA 3", "Gemini 2.5"],
       defaultValue: "GPT-4",
     },
     {

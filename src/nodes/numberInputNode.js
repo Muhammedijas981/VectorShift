@@ -1,9 +1,12 @@
 // numberInputNode.js
 
 import { createNode } from "./createNode";
+import PinIcon from "@mui/icons-material/Pin";
+
 
 export const NumberInputNode = createNode({
   title: "Number Input",
+  icon: <PinIcon sx={{ color: "black", fontSize: 17 }} />,
   fields: [
     {
       type: "number",

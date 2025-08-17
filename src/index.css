@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
-/* Base Styles */
 html,
 body,
 #root {
@@ -20,7 +19,6 @@ body,
   overflow: hidden;
 }
 
-/* Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 7px;
   background: #eaedf4;
@@ -53,8 +51,6 @@ body,
 .react-flow__handle-right {
   right: -4px;
 }
-
-/* Custom Handle Design */
 
 .custom-handle {
   width: 10px !important;
@@ -97,8 +93,6 @@ body,
   margin: 0;
 }
 
-
-/* Node Header Container */
 .vs-header-container {
   background-color: #f3f3f3;
   margin: 6px 6px 0 6px;
@@ -147,18 +141,6 @@ body,
   cursor: pointer;
 }
 
-.vs-subtitle {
-  padding: 8px 16px;
-  font-size: 12px;
-  color: #54607a;
-  border-top: 1px solid #e0e7ff;
-  margin: 0;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  word-break: break-word;
-}
-
-/* Node ID Container */
 .node-id-container {
   display: flex;
   justify-content: center;
@@ -185,12 +167,10 @@ body,
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
 }
 
-/* Node Body */
 .vs-body {
   padding: 12px;
 }
 
-/* Form Elements */
 .vs-form-group {
   display: flex;
   flex-direction: column;
@@ -248,7 +228,6 @@ body,
   margin-top: 6px;
 }
 
-/* Handle Connection Badge */
 .handle-connection {
   display: flex;
   align-items: center;
@@ -278,7 +257,6 @@ body,
   color: #374151;
 }
 
-/* Format Output Toggle */
 .format-output {
   display: flex;
   align-items: center;
@@ -293,7 +271,6 @@ body,
   color: #374151;
 }
 
-/* Pills and Tags */
 .vectorshift-pill {
   display: inline-block;
   border-radius: 10px;
@@ -316,7 +293,6 @@ body,
   background: #eafffa;
 }
 
-/* Toolbar Header */
 .vshift-toolbar-header {
   width: 100vw;
   background: #fff;
@@ -382,7 +358,6 @@ body,
   font-weight: 600;
 }
 
-/* Toolbar */
 .vectorshift-toolbar {
   display: flex;
   align-items: center;
@@ -453,7 +428,12 @@ body,
   box-sizing: border-box;
 }
 
-/* Styles for the SubmitButton */
+.submit-button-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .submit-button {
   background-color: #3b82f6; 
   color: white;

@@ -1,10 +1,13 @@
 // switchNode.js
 
 import { createNode } from "./createNode";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+
 
 export const SwitchNode = createNode({
 
   title: "Switch",
+  icon: <ToggleOnIcon sx={{ color: "black", fontSize: 17 }} />,
   fields: [
     {
       type: "select",

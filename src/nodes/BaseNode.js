@@ -225,7 +225,10 @@ export default function BaseNode({
           </div>
           <div className="vs-header-right">
             <SettingsIcon className="vs-action" />
-            <CloseIcon className="vs-action" onClick={() => onDelete?.(id)} />
+            <HighlightOffRoundedIcon
+              className="vs-action"
+              onClick={() => onDelete?.(id)}
+            />
           </div>
         </div>
       </div>

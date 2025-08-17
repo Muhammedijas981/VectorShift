@@ -1,7 +1,5 @@
 // draggableNode.js
 
-// draggableNode.js
-
 import React from "react";
 
 export const DraggableNode = ({ type, label, icon }) => {
@@ -23,10 +21,9 @@ export const DraggableNode = ({ type, label, icon }) => {
       onDragStart={(e) => onDragStart(e, type)}
       onDragEnd={onDragEnd}
       title={`Drag to add ${label}`}
+      style={{ width: "70px" }}
     >
-      <div style={{ fontSize: '14px', color: '#6b7280' }}>
-        {icon}
-      </div>
+      <div style={{ fontSize: "14px", color: "#6b7280" }}>{icon}</div>
       <span>{label}</span>
     </div>
   );
