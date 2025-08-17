@@ -21,7 +21,7 @@ export const DraggableNode = ({ type, label, icon }) => {
       onDragStart={(e) => onDragStart(e, type)}
       onDragEnd={onDragEnd}
       title={`Drag to add ${label}`}
-      style={{ width: "80px" }}
+      style={{ width: "70px" }}
     >
       <div style={{ fontSize: "14px", color: "#6b7280" }}>{icon}</div>
       <span>{label}</span>
