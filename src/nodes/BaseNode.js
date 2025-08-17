@@ -1,45 +1,39 @@
 // src/nodes/BaseNode.js
-import { useState } from "react";
+import React, { useState } from "react";
 import { Handle, Position } from "reactflow";
 import SettingsIcon from "@mui/icons-material/Settings";
-import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+import CloseIcon from "@mui/icons-material/Close";
 
 
-// helper function to parse text with chips
-function parseTextWithChips(text) {
+
+// helper function to parse text and show variables as chips
+function parseTextWithChipsSimple(text) {
   const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_\-$.]*)\s*\}\}/g;
-  const output = [];
-  let lastIndex = 0;
+  const chips = [];
   let match;
 
   while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      output.push(text.slice(lastIndex, match.index));
-    }
-    output.push(
+    chips.push(
       <span
-        key={match[1] + match.index}
+        key={match.index}
+        className="chip"
         style={{
+          background: "#e3f2fd",
+          padding: "4px 8px",
+          margin: "2px",
+          borderRadius: "4px",
+          fontSize: "12px",
+          border: "1px solid #2196f3",
+          color: "#1976d2",
           display: "inline-block",
-          background: "#e0e7ff",
-          color: "#3b5afe",
-          borderRadius: 14,
-          padding: "2px 10px",
-          margin: "0 2px",
-          fontSize: 12,
-          fontWeight: 600,
-          cursor: "pointer",
         }}
       >
         {match[1]}
       </span>
     );
-    lastIndex = regex.lastIndex;
   }
-  if (lastIndex < text.length) {
-    output.push(text.slice(lastIndex));
-  }
-  return output;
+
+  return chips;
 }
 
 export default function BaseNode({
@@ -64,19 +58,14 @@ export default function BaseNode({
   const [nodeId, setNodeId] = useState(id);
 
   const updateField = (key, value) => {
-    setState((prev) => {
-      const newState = { ...prev, [key]: value };
-      return newState;
-    });
+    setState((prev) => ({ ...prev, [key]: value }));
     const field = fields.find((f) => f.stateKey === key);
-    if (field?.onChange) {
-      field.onChange(key, value);
-    }
+    if (field?.onChange) field.onChange(key, value);
   };
 
   const handleNodeIdChange = (newId) => {
     setNodeId(newId);
-    if (onNodeIdChange) onNodeIdChange(id, newId);
+    onNodeIdChange?.(id, newId);
   };
 
   const renderField = (f, idx) => {
@@ -88,41 +77,56 @@ export default function BaseNode({
           style={{ position: "relative" }}
         >
           {f.label && <label className="vs-label">{f.label}:</label>}
-          <textarea
-            ref={f.textareaRef}
-            value={state[f.stateKey]}
-            onChange={(e) => {
-              updateField(f.stateKey, e.target.value);
-            }}
-            onKeyDown={(e) => {
-              f.onKeyDown?.(e, f.stateKey);
-            }}
-            onInput={(e) => {
-              e.target.style.height = "auto";
-              e.target.style.height = `${e.target.scrollHeight}px`;
-            }}
-            className="vs-input"
-            style={{ resize: "none", overflow: "hidden", minHeight: "40px" }}
-          />
-          {f.allowVariables && state[f.stateKey] && (
-            <div
+          <div className="textarea-wrapper" style={{ position: "relative" }}>
+            <textarea
+              ref={f.textareaRef}
+              value={state[f.stateKey]}
+              onChange={(e) => updateField(f.stateKey, e.target.value)}
+              onKeyDown={(e) => f.onKeyDown?.(e, f.stateKey)}
+              onInput={(e) => {
+                e.target.style.height = "auto";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
+              className="vs-input"
+              placeholder={f.placeholder}
               style={{
-                marginTop: 8,
-                padding: "8px 12px",
-                border: "1px solid #e5e7eb",
-                borderRadius: 6,
-                background: "#f9fafb",
-                minHeight: 20,
-                fontSize: 13,
-                lineHeight: 1.5,
+                position: "relative",
+                background: "transparent",
+                width: "100%",
+                padding: "8px",
+                boxSizing: "border-box",
+                resize: "none",
+                minHeight: 40,
+                zIndex: 1,
+                color: "#333", 
+              }}
+            />
+            <div
+              className="textarea-overlay"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                padding: "8px",
+                pointerEvents: "none",
+                zIndex: 2,
+                overflow: "hidden",
               }}
             >
-              <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 4 }}>
-                input:
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "4px",
+                  marginTop: "2px",
+                }}
+              >
+                {parseTextWithChipsSimple(state[f.stateKey])}
               </div>
-              <div>{parseTextWithChips(state[f.stateKey])}</div>
             </div>
-          )}
+          </div>
 
           {f.allowVariables &&
             f.showDropdown &&
@@ -149,30 +153,18 @@ export default function BaseNode({
                       padding: "8px 12px",
                       cursor: "pointer",
                       borderBottom: "1px solid #eee",
-                      fontSize: 13,
-                      backgroundColor: "white",
                     }}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      if (f.onVariableSelect) {
-                        f.onVariableSelect(
-                          item,
-                          f.stateKey,
-                          state[f.stateKey],
-                          updateField
-                        );
-                      }
+                      f.onVariableSelect?.(
+                        item,
+                        f.stateKey,
+                        state[f.stateKey],
+                        updateField
+                      );
                     }}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = "#f0f0f0";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = "white";
-                    }}
+                    onMouseDown={(e) => e.preventDefault()}
                   >
                     {item}
                   </div>
@@ -182,6 +174,7 @@ export default function BaseNode({
         </div>
       );
     }
+
     if (f.type === "select") {
       return (
         <div key={idx} className="vs-form-group">
@@ -200,6 +193,7 @@ export default function BaseNode({
         </div>
       );
     }
+
     if (f.type === "static") {
       return (
         <div key={idx} className="vs-form-group">
@@ -207,6 +201,7 @@ export default function BaseNode({
         </div>
       );
     }
+
     return (
       <div key={idx} className="vs-form-group">
         <label className="vs-label">{f.label}:</label>
@@ -246,59 +241,52 @@ export default function BaseNode({
         />
       </div>
       <div className="vs-body">{fields.map(renderField)}</div>
-      {handles.map((h, i) => {
-        if (h.isDynamic) {
-          return (
+      {handles.map((h, i) =>
+        h.isDynamic ? (
+          <div
+            key={h.id}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: h.style?.top,
+              transform: "translateX(-50%)",
+              display: "flex",
+              alignItems: "center",
+              height: 20,
+            }}
+          >
             <div
-              key={h.id}
               style={{
                 position: "absolute",
-                left: 0,
-                top: h.style?.top,
-                transform: "translateX(-50%)",
-                display: "flex",
-                alignItems: "center",
-                height: 20,
+                right: 20,
+                fontSize: 12,
+                color: "#666",
+                pointerEvents: "none",
               }}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  right: 20,
-                  fontSize: 12,
-                  color: "#666",
-                  pointerEvents: "none",
-                  userSelect: "none",
-                }}
-              >
-                {h.variable}
-              </div>
-              <Handle
-                type={h.type}
-                position={Position.Left}
-                id={h.id}
-                className="custom-handle"
-                isConnectable
-              />
+              {h.variable}
             </div>
-          );
-        } else {
-          return (
             <Handle
-              key={i}
               type={h.type}
-              position={
-                Position[
-                  h.position.charAt(0).toUpperCase() + h.position.slice(1)
-                ]
-              }
-              id={`${id}-${h.idSuffix}`}
-              style={h.style}
+              position={Position.Left}
+              id={h.id}
               className="custom-handle"
+              isConnectable
             />
-          );
-        }
-      })}
+          </div>
+        ) : (
+          <Handle
+            key={i}
+            type={h.type}
+            position={
+              Position[h.position.charAt(0).toUpperCase() + h.position.slice(1)]
+            }
+            id={`${id}-${h.idSuffix}`}
+            style={h.style}
+            className="custom-handle"
+          />
+        )
+      )}
     </div>
   );
 }
