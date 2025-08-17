@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Handle, Position } from "reactflow";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 
 
 
