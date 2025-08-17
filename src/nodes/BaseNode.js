@@ -1,10 +1,9 @@
-// src/nodes/BaseNode.js
+// BaseNode.js
 import React, { useState } from "react";
 import { Handle, Position } from "reactflow";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
-
-
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 
 // helper function to parse text and show variables as chips
 function parseTextWithChipsSimple(text) {
@@ -18,13 +17,13 @@ function parseTextWithChipsSimple(text) {
         key={match.index}
         className="chip"
         style={{
-          background: "#e3f2fd",
+          background: "#3b82f6",
           padding: "4px 8px",
           margin: "2px",
-          borderRadius: "4px",
-          fontSize: "12px",
+          borderRadius: "6px",
+          fontSize: "9px",
           border: "1px solid #2196f3",
-          color: "#1976d2",
+          color: "#ffffffff",
           display: "inline-block",
         }}
       >
@@ -34,6 +33,12 @@ function parseTextWithChipsSimple(text) {
   }
 
   return chips;
+}
+
+// Function to create display text with variables hidden
+function createDisplayText(text) {
+  const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_\-$.]*)\s*\}\}/g;
+  return text.replace(regex, (match) => " ".repeat(match.length));
 }
 
 export default function BaseNode({
@@ -86,9 +91,36 @@ export default function BaseNode({
               onInput={(e) => {
                 e.target.style.height = "auto";
                 e.target.style.height = `${e.target.scrollHeight}px`;
+                const displayTextarea =
+                  e.target.parentNode.querySelector(".display-textarea");
+                if (displayTextarea) {
+                  displayTextarea.style.height = "auto";
+                  displayTextarea.style.height = `${e.target.scrollHeight}px`;
+                }
               }}
               className="vs-input"
               placeholder={f.placeholder}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                padding: "8px",
+                boxSizing: "border-box",
+                resize: "none",
+                minHeight: 40,
+                zIndex: 3,
+                backgroundColor: "transparent",
+                color: "transparent", 
+                caretColor: "#333", 
+                border: "none",
+                outline: "none",
+              }}
+            />
+            <textarea
+              className="display-textarea vs-input"
+              value={createDisplayText(state[f.stateKey])}
+              readOnly
               style={{
                 position: "relative",
                 background: "transparent",
@@ -98,7 +130,10 @@ export default function BaseNode({
                 resize: "none",
                 minHeight: 40,
                 zIndex: 1,
-                color: "#333", 
+                color: "#333",
+                pointerEvents: "none",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
               }}
             />
             <div
