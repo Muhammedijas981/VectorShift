@@ -1,70 +1,126 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# VectorShift Frontend Technical Assessment
 
-## Available Scripts
+## Assignment Overview
 
-In the project directory, you can run:
+This repository contains the solution to the **VectorShift Frontend Technical Assessment**. The project consists of a frontend built using **React** and a backend implemented with **FastAPI**. The goal of this project is to create a flexible and reusable node abstraction, enhance the styling, improve the text node logic, and integrate the frontend with the backend for pipeline submission.
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Live URL](https://vector-shift-ijas.vercel.app/)
+- [Backend GitHub Repository](https://github.com/Muhammedijas981/VectorShift_backend)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Getting Started
 
-### `npm test`
+### Frontend Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Muhammedijas981/VectorShift
+   cd VectorShift
+   ```
 
-### `npm run build`
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Start development server**
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Open in browser**
+   ```
+   http://localhost:3000
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Backend Setup
 
-### `npm run eject`
+The backend repository is available at: https://github.com/Muhammedijas981/VectorShift_backend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the backend repository**
+   ```bash
+   git clone https://github.com/Muhammedijas981/VectorShift_backend.git
+   cd VectorShift_backend
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Install Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **Run the FastAPI server**
+   ```bash
+   uvicorn main:app --reload
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. **Backend will be available at**
+   ```
+   http://localhost:8000
+   ```
 
-## Learn More
+## Part 1: Node Abstraction
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+A reusable and flexible node abstraction was created to simplify building new nodes. This abstraction allows you to easily add new nodes by defining the following:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Input Handles** and **Output Handles**
+- Customizable fields (e.g., text inputs, dropdowns)
+- Shared UI components across different node types
 
-### Code Splitting
+### New Nodes Created:
+- Checkbox Node
+- Color Picker Node
+- Input Node
+- String Concatenate Node
+- Multiplier Node
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Part 2: Styling
 
-### Analyzing the Bundle Size
+Styling was applied using **TailwindCSS** and **NextUI** to create a modern and clean interface. The design prioritizes usability, with proper visual cues for node connections and interactive components.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Features:
+- Drag-and-drop pipeline builder
+- Interactive components with smooth transitions and hover effects
 
-### Making a Progressive Web App
+## Part 3: Text Node Logic
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The **Text Node** was improved with the following functionality:
 
-### Advanced Configuration
+1. **Dynamic Resizing**: The node adjusts its width and height based on the text input to improve visibility.
+2. **Variable Detection**: Users can define variables inside double curly braces (`{{ variable }}`). The node automatically generates input handles for these variables, allowing them to interact with other nodes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Part 4: Backend Integration
 
-### Deployment
+The frontend is integrated with the **FastAPI** backend. When a pipeline is submitted, the frontend sends the nodes and edges to the backend. The backend performs the following:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Calculates the number of nodes and edges.
+- Checks if the pipeline forms a **Directed Acyclic Graph (DAG)** using **NetworkX**.
+- Returns a result to the frontend, which displays it via a toast notification.
 
-### `npm run build` fails to minify
+## 🔧 API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Pipeline Analysis Endpoint
+
+**Endpoint**: `POST /pipelines/parse`
+
+**Request Format**:
+```json
+{
+  "nodes": [...],
+  "edges": [...]
+}
+```
+
+**Response Format**:
+```json
+{
+  "num_nodes": 2,
+  "num_edges": 1,
+  "is_dag": true,
+  "status": "parsed"
+}
+```
+
+The frontend automatically sends pipeline data to this endpoint when the submit button is clicked, and displays the analysis results in a user-friendly alert.
+
