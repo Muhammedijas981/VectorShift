@@ -67,11 +67,11 @@ A reusable and flexible node abstraction was created to simplify building new no
 - Shared UI components across different node types
 
 ### New Nodes Created:
-- Checkbox Node
-- Color Picker Node
-- Input Node
-- String Concatenate Node
-- Multiplier Node
+- Math Operation
+- Number Input
+- Request
+- Switch
+- Prompt
 
 ## Part 2: Styling
 
